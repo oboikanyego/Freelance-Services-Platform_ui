@@ -1,5 +1,5 @@
 export const environment = {
     production: true,
-    apiUrl: 'http://localhost:5000'
+    apiUrl: 'https://freelance-services-platform-bff.onrender.com'
 };
 
