@@ -1,21 +1,16 @@
-<mat-card class="chat-box">
-    <h3>💬 Order Chat</h3>
-  
-    <div class="messages">
-      <div *ngFor="let m of messages" [class.own]="m.senderId._id === user._id">
-        <p>
-          <strong>{{ m.senderId.name }}:</strong>
-          {{ m.text }}
-        </p>
-        <small>{{ m.createdAt | date:'short' }}</small>
+<div class="chat-container">
+    <div class="chat-messages">
+      <div *ngFor="let msg of messages" [class.self]="msg.fromSelf" class="message">
+        <span>{{ msg.text }}</span>
       </div>
     </div>
-  
     <div class="chat-input">
-      <mat-form-field class="full-width">
-        <input matInput placeholder="Type your message..." />
-      </mat-form-field>
-      <button mat-raised-button color="primary" (click)="send()">Send</button>
+      <input
+        [(ngModel)]="newMessage"
+        (keydown.enter)="sendMessage()"
+        placeholder="Type a message..."
+      />
+      <button mat-raised-button color="primary" (click)="sendMessage()">Send</button>
     </div>
-  </mat-card>
+  </div>
   

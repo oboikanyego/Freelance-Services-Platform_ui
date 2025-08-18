@@ -4,6 +4,8 @@ import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { Loading } from '../services/loading';
+import { ChatPopup } from "../components/chat-popup";
+import { AuthService } from '../services/auth.service';
 
 
 @Component({
@@ -12,7 +14,7 @@ import { Loading } from '../services/loading';
   imports: [RouterOutlet, CommonModule,
     MatProgressBarModule,
     RouterModule,
-    MatButtonModule],
+    MatButtonModule, ChatPopup],
   template: `
     <div class="container">
       <section class="home-hero">
@@ -21,6 +23,7 @@ import { Loading } from '../services/loading';
         <div>
           <a mat-raised-button color="primary" routerLink="/services">Browse Services</a>
           <a mat-stroked-button color="accent" routerLink="/login">Login</a>
+          <a mat-stroked-button color="warn" (click)="authService.logout()">Logout</a>
           <a mat-stroked-button color="warn" routerLink="/register">Register</a>
         </div>
         </div>
@@ -28,6 +31,7 @@ import { Loading } from '../services/loading';
       </section>
 
       <main>
+        <app-chat-popup *ngIf="authService.isLoggedIn()"></app-chat-popup>
         <router-outlet></router-outlet>
       </main>
 
@@ -133,6 +137,6 @@ import { Loading } from '../services/loading';
   `]
 })
 export class AppLayoutComponent {
-  constructor(public loadingService: Loading) {}
+  constructor(public loadingService: Loading,public authService:AuthService) {}
   currentYear = new Date().getFullYear();
 }

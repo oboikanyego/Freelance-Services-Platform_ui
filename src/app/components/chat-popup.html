@@ -1,0 +1,10 @@
+<!-- Floating Button -->
+<div class="chat-float-button" (click)="togglePopup()" *ngIf="auth.isLoggedIn() && order">
+    💬
+  </div>
+  
+  <!-- Chat Window -->
+  <div class="chat-popup" *ngIf="showPopup">
+    <app-chat *ngIf="order" [order]="order"></app-chat>
+  </div>
+  

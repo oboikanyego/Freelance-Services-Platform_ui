@@ -1,12 +1,22 @@
 <mat-card class="service-card">
-    <img mat-card-image [src]="service.imageUrl" alt="service image" />
-    <mat-card-title>{{ service.title }}</mat-card-title>
-    <mat-card-subtitle>R {{ service.price }} · {{ service.category }}</mat-card-subtitle>
-    <mat-card-content>
-      <p>{{ service.description }}</p>
-    </mat-card-content>
-    <mat-card-footer>
-      <small>By: {{ service.userId.name }}</small>
-    </mat-card-footer>
-  </mat-card>
-  
+  <img mat-card-image [src]="service.imageUrl" alt="service image" />
+
+  <mat-card-title>{{ service.title }}</mat-card-title>
+  <mat-card-subtitle>
+    R {{ service.price }} · {{ service.category }}
+  </mat-card-subtitle>
+
+  <mat-card-content>
+    <p>{{ service.description }}</p>
+  </mat-card-content>
+
+  <mat-card-footer>
+    <small>By: {{ service.userId.name }}</small>
+  </mat-card-footer>
+
+  <div class="order-btn-wrapper" *ngIf="authService.isLoggedIn() && service.userId._id !== authService.getUser()?.userId">
+    <button mat-raised-button color="primary" (click)="orderNow()" [disabled]="isLoading">
+      {{ isLoading ? 'Placing order...' : 'Order Now' }}
+    </button>
+  </div>
+</mat-card>

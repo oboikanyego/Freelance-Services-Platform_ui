@@ -8,6 +8,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import {MatSelectModule} from '@angular/material/select';
 import { CommonModule } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-register',
@@ -19,7 +20,8 @@ import { CommonModule } from '@angular/common';
     MatSelectModule,
     MatCardModule,
     MatButtonModule,
-    RouterModule
+    RouterModule,
+    MatIconModule
   ],
   templateUrl: './register.html',
   styleUrl: './register.scss',
@@ -28,6 +30,7 @@ export class Register {
   form: FormGroup;
   roles = ['freelancer', 'buyer'];
   loading = false;
+hide: any = false;
 
   constructor(
     private fb: FormBuilder,

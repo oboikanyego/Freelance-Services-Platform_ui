@@ -17,4 +17,8 @@ export class OrderService {
   updateOrderStatus(orderId: string, status: string) {
     return this.http.put(`${this.apiUrl}/${orderId}/status`, { status });
   }
+
+  createOrder(serviceId: string) {
+    return this.http.post(`${this.apiUrl}`, { serviceId });
+  }
 }

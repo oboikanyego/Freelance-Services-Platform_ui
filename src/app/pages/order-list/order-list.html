@@ -40,7 +40,17 @@
         <p><strong>Freelancer:</strong> {{ order.freelancerId.name }}</p>
         <p><strong>Ordered On:</strong> {{ order.createdAt | date:'medium' }}</p>
         <p><strong>Description:</strong> {{ order.serviceId.description }}</p>
+        <button mat-raised-button color="primary" (click)="openChat(order)">
+          Chat
+        </button>
   
+        <ng-container *ngIf="order.freelancerId._id === userId">
+          <div class="status-buttons">
+            <button mat-button color="primary" (click)="updateStatus(order._id, 'in progress')" [disabled]="order.status !== 'pending'">Start</button>
+            <button mat-button color="accent" (click)="updateStatus(order._id, 'delivered')" [disabled]="order.status !== 'in progress'">Deliver</button>
+            <button mat-button color="warn" (click)="updateStatus(order._id, 'completed')" [disabled]="order.status !== 'delivered'">Complete</button>
+          </div>
+        </ng-container>
         <ng-container *ngIf="order.freelancerId._id === userId">
           <div class="status-buttons">
             <button mat-button color="primary" (click)="updateStatus(order._id, 'in progress')" [disabled]="order.status !== 'pending'">Start</button>
@@ -51,4 +61,8 @@
       </mat-expansion-panel>
     </mat-accordion>
   </div>
+  <app-chat-popup *ngIf="isChatOpen"
+  [order]="selectedOrderForChat"
+  (close)="closeChat()">
+</app-chat-popup>
   

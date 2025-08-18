@@ -8,6 +8,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
+import { ChatPopup } from "../../components/chat-popup";
 
 @Component({
   selector: 'app-order-list',
@@ -17,8 +18,9 @@ import { MatSelectModule } from '@angular/material/select';
     MatExpansionModule,
     MatButtonModule,
     MatFormFieldModule,
-    MatSelectModule
-  ],
+    MatSelectModule,
+    ChatPopup
+],
   templateUrl: './order-list.html',
   styleUrl: './order-list.scss'
 })
@@ -32,6 +34,8 @@ export class OrderList implements OnInit {
   statuses = ['pending', 'in progress', 'delivered', 'completed'];
   selectedStatus = '';
   sortOrder: 'newest' | 'oldest' = 'newest';
+  selectedOrderForChat: any = null;  // holds order for chat
+  isChatOpen = false;
 
   constructor(
     private orderService: OrderService,
@@ -86,5 +90,15 @@ export class OrderList implements OnInit {
       next: () => this.loadOrders(),
       error: (err) => console.error(err)
     });
+  }
+
+  openChat(order: any) {
+    this.selectedOrderForChat = order;
+    this.isChatOpen = true;
+  }
+
+  closeChat() {
+    this.isChatOpen = false;
+    this.selectedOrderForChat = null;
   }
 }
