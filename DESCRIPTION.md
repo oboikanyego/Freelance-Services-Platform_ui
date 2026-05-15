@@ -1,0 +1,1 @@
+Frontend UI for Freelance Services Platform — Built with TypeScript, HTML, and SCSS. Provides a modern, responsive user interface for browsing jobs, submitting applications, and managing freelancer profiles with secure integration to the backend API.
