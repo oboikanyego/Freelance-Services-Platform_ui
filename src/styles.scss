@@ -1,29 +1,444 @@
-@import '@angular/material/prebuilt-themes/azure-blue.css';
+@use '@angular/material' as mat;
 
+// ---------------------------------------------------------------------------
+// Design tokens
+// ---------------------------------------------------------------------------
+:root {
+  --brand-50: #eef2ff;
+  --brand-100: #e0e7ff;
+  --brand-200: #c7d2fe;
+  --brand-500: #6366f1;
+  --brand-600: #4f46e5;
+  --brand-700: #4338ca;
+  --brand-900: #312e81;
 
-html, body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    font-family: 'Inter', sans-serif;
+  --ink-900: #0f172a;
+  --ink-700: #334155;
+  --ink-500: #64748b;
+  --ink-400: #94a3b8;
+  --line: #e2e8f0;
+  --surface: #ffffff;
+  --surface-muted: #f8fafc;
+  --bg: #f6f7fb;
+
+  --success-bg: #dcfce7;
+  --success-fg: #166534;
+  --warning-bg: #fef3c7;
+  --warning-fg: #92400e;
+  --info-bg: #dbeafe;
+  --info-fg: #1e40af;
+  --danger: #dc2626;
+
+  --radius-sm: 8px;
+  --radius: 12px;
+  --radius-lg: 18px;
+  --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.06);
+  --shadow: 0 1px 3px rgba(15, 23, 42, 0.06), 0 8px 24px rgba(15, 23, 42, 0.06);
+  --shadow-lg: 0 20px 50px -12px rgba(15, 23, 42, 0.25);
+
+  --container: 1180px;
+  --font: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+
+// ---------------------------------------------------------------------------
+// Angular Material theme (M3)
+// ---------------------------------------------------------------------------
+html {
+  color-scheme: light;
+  @include mat.theme((
+    color: (
+      primary: mat.$violet-palette,
+      tertiary: mat.$blue-palette,
+      theme-type: light,
+    ),
+    typography: (
+      plain-family: (Inter, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif),
+      brand-family: (Inter, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif),
+    ),
+    density: 0,
+  ));
+
+  // Align Material system colours with the brand tokens
+  @include mat.theme-overrides((
+    primary: var(--brand-600),
+    on-primary: #ffffff,
+    primary-container: var(--brand-100),
+    on-primary-container: var(--brand-900),
+    surface: var(--surface),
+    surface-container-low: var(--surface),
+    surface-container: var(--surface),
+    surface-container-high: var(--surface),
+    on-surface: var(--ink-900),
+    on-surface-variant: var(--ink-500),
+    outline: #cbd5e1,
+    outline-variant: var(--line),
+    error: var(--danger),
+    corner-full: 10px,
+  ));
+
+  @include mat.button-overrides((
+    filled-container-shape: 10px,
+    outlined-container-shape: 10px,
+    text-container-shape: 10px,
+    protected-container-shape: 10px,
+    filled-label-text-weight: 600,
+    outlined-label-text-weight: 600,
+    text-label-text-weight: 600,
+    protected-label-text-weight: 600,
+    filled-container-height: 44px,
+    outlined-container-height: 44px,
+    protected-container-height: 44px,
+  ));
+
+  @include mat.form-field-overrides((
+    outlined-container-shape: 10px,
+  ));
+
+  @include mat.card-overrides((
+    elevated-container-shape: var(--radius-lg),
+    outlined-container-shape: var(--radius-lg),
+  ));
+
+  @include mat.expansion-overrides((
+    container-shape: var(--radius),
+  ));
+}
+
+// ---------------------------------------------------------------------------
+// Base
+// ---------------------------------------------------------------------------
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+}
+
+body {
+  font-family: var(--font);
+  color: var(--ink-900);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.5;
+}
+
+app-root {
+  display: block;
+  min-height: 100vh;
+}
+
+h1, h2, h3, h4 {
+  margin: 0;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+p {
+  margin: 0;
+}
+
+a {
+  color: var(--brand-600);
+  text-decoration: none;
+
+  &:hover {
+    color: var(--brand-700);
   }
-  
-  body {
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+::selection {
+  background: var(--brand-200);
+}
+
+// ---------------------------------------------------------------------------
+// Shared utilities
+// ---------------------------------------------------------------------------
+.page {
+  width: 100%;
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 40px 24px 64px;
+
+  @media (max-width: 600px) {
+    padding: 24px 16px 48px;
+  }
+}
+
+.page-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 28px;
+
+  h1 {
+    font-size: 1.875rem;
+    font-weight: 700;
+  }
+
+  p {
+    color: var(--ink-500);
+    margin-top: 6px;
+  }
+}
+
+.eyebrow {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--brand-600);
+}
+
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: capitalize;
+  white-space: nowrap;
+  background: var(--surface-muted);
+  color: var(--ink-700);
+
+  &::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+  }
+
+  &.status-pending { background: var(--warning-bg); color: var(--warning-fg); }
+  &.status-in-progress { background: var(--info-bg); color: var(--info-fg); }
+  &.status-delivered { background: var(--brand-100); color: var(--brand-700); }
+  &.status-completed { background: var(--success-bg); color: var(--success-fg); }
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 8px;
+  padding: 64px 24px;
+  color: var(--ink-500);
+
+  .material-icons-round {
+    font-size: 44px;
+    color: var(--ink-400);
+    margin-bottom: 8px;
+  }
+
+  h3 {
+    color: var(--ink-900);
+    font-size: 1.125rem;
+  }
+}
+
+.full-width {
+  width: 100%;
+}
+
+// Material icons render inside buttons with consistent sizing
+.mat-mdc-button-base .material-icons-round {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+}
+
+// ---------------------------------------------------------------------------
+// Auth pages (login, register, forgot/reset password)
+// ---------------------------------------------------------------------------
+.auth-shell {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  background: var(--surface);
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.auth-aside {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 48px;
+  color: #fff;
+  background:
+    radial-gradient(circle at 15% 20%, rgba(129, 140, 248, 0.55), transparent 45%),
+    radial-gradient(circle at 85% 80%, rgba(56, 189, 248, 0.35), transparent 45%),
+    linear-gradient(135deg, #312e81 0%, #4338ca 55%, #4f46e5 100%);
+
+  @media (max-width: 900px) {
+    display: none;
+  }
+
+  .auth-quote {
+    max-width: 440px;
+
+    h2 {
+      font-size: 2.25rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    p {
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 1.05rem;
+    }
+  }
+
+  .auth-points {
+    list-style: none;
+    padding: 0;
+    margin: 28px 0 0;
+    display: grid;
+    gap: 14px;
+
+    li {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    .material-icons-round {
+      font-size: 20px;
+      padding: 6px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.14);
+    }
+  }
+
+  .auth-foot {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.6);
+  }
+}
+
+.auth-main {
+  display: flex;
+  flex-direction: column;
+  padding: 32px 24px;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 420px;
+  margin: auto;
+
+  h1 {
+    font-size: 1.75rem;
+    font-weight: 700;
+  }
+
+  .auth-sub {
+    margin: 8px 0 28px;
+    color: var(--ink-500);
+  }
+
+  form {
     display: flex;
     flex-direction: column;
-    min-height: 100%;
+    gap: 4px;
   }
-  
-  app-root {
-    width: 100%;
-    height: 100%;
-  }
-  app-service-list{
-    width:100%;
-    height:100%
-  }
-  app-service-list {
+
+  .auth-row {
     display: flex;
-    align-items: center;
-    justify-content: center;
+    justify-content: flex-end;
+    margin: -8px 0 16px;
+    font-size: 0.875rem;
+    font-weight: 500;
   }
+
+  .auth-submit {
+    width: 100%;
+    margin-top: 4px;
+  }
+
+  .auth-switch {
+    margin-top: 24px;
+    text-align: center;
+    color: var(--ink-500);
+    font-size: 0.925rem;
+
+    a {
+      font-weight: 600;
+      margin-left: 4px;
+    }
+  }
+
+  .auth-message {
+    margin-top: 16px;
+    padding: 12px 14px;
+    border-radius: var(--radius-sm);
+    background: var(--brand-50);
+    color: var(--brand-900);
+    font-size: 0.9rem;
+  }
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 800;
+  font-size: 1.125rem;
+  letter-spacing: -0.02em;
+  color: inherit;
+
+  &:hover {
+    color: inherit;
+  }
+
+  .brand-mark {
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--brand-500), var(--brand-700));
+    color: #fff;
+    font-size: 1rem;
+    box-shadow: 0 6px 16px -6px rgba(79, 70, 229, 0.7);
+  }
+}
+
+.auth-aside .brand .brand-mark {
+  background: rgba(255, 255, 255, 0.16);
+  box-shadow: none;
+}
+
+.field-icon {
+  font-size: 20px;
+  color: var(--ink-400);
+  padding: 0 4px 0 12px;
+}

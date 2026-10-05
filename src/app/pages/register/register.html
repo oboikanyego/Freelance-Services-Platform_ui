@@ -1,49 +1,77 @@
-<div class="auth-container">
-    <div class="auth-box">
-      <div class="form-section">
-        <h2>Register</h2>
-        <form [formGroup]="form" (ngSubmit)="submit()">
-          <mat-form-field appearance="outline" floatLabel="always">
-            <mat-label>Name</mat-label>
-            <input matInput formControlName="name" />
-          </mat-form-field>
-  
-          <mat-form-field appearance="outline" floatLabel="always">
-            <mat-label>Email</mat-label>
-            <input matInput formControlName="email" type="email" />
-          </mat-form-field>
-  
-          <mat-form-field appearance="outline" floatLabel="always">
-            <mat-label>Password</mat-label>
-            <input matInput formControlName="password" 
-            [type]="hide ? 'password' : 'text'" />
-            <button
-              mat-icon-button
-              matSuffix
-              (click)="hide = !hide"
-              [attr.aria-label]="'Toggle password visibility'"
-              [attr.aria-pressed]="!hide"
-              type="button"
-            >
-              <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
-            </button>
-          </mat-form-field>
-  
-          <mat-form-field appearance="outline">
-            <mat-label>Role</mat-label>
-            <mat-select formControlName="role">
-              <mat-option value="freelancer">Freelancer</mat-option>
-              <mat-option value="buyer">Buyer</mat-option>
-            </mat-select>
-          </mat-form-field>
-  
-          <button mat-raised-button type="submit">Register</button>
-          <div class="login-link">
-              <span>Already have an account?</span>
-              <a matButton="outlined" mat-button color="primary" routerLink="/login">Login</a>
-            </div>
-        </form>
-      </div>
+<div class="auth-shell">
+  <aside class="auth-aside">
+    <a class="brand" routerLink="/">
+      <span class="brand-mark material-icons-round">bolt</span>
+      FreelanceHub
+    </a>
+    <div class="auth-quote">
+      <h2>Start hiring or selling in minutes.</h2>
+      <p>Create a free account as a buyer or a freelancer and join the community.</p>
+      <ul class="auth-points">
+        <li><span class="material-icons-round">verified_user</span> Secure accounts and order tracking</li>
+        <li><span class="material-icons-round">forum</span> Real-time chat on every order</li>
+        <li><span class="material-icons-round">payments</span> Transparent, upfront pricing</li>
+      </ul>
     </div>
-  </div>
-  
+    <span class="auth-foot">&copy; FreelanceHub</span>
+  </aside>
+
+  <main class="auth-main">
+    <div class="auth-card">
+      <h1>Create your account</h1>
+      <p class="auth-sub">It's free and takes less than a minute.</p>
+
+      <form [formGroup]="form" (ngSubmit)="submit()">
+        <div class="role-toggle" role="radiogroup" aria-label="Account type">
+          <button type="button" role="radio" [attr.aria-checked]="form.value.role === 'buyer'"
+            [class.selected]="form.value.role === 'buyer'" (click)="form.patchValue({ role: 'buyer' })">
+            <span class="material-icons-round">shopping_bag</span>
+            <span><strong>I want to hire</strong><small>Buyer</small></span>
+          </button>
+          <button type="button" role="radio" [attr.aria-checked]="form.value.role === 'freelancer'"
+            [class.selected]="form.value.role === 'freelancer'" (click)="form.patchValue({ role: 'freelancer' })">
+            <span class="material-icons-round">work</span>
+            <span><strong>I want to work</strong><small>Freelancer</small></span>
+          </button>
+        </div>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Full name</mat-label>
+          <span matPrefix class="material-icons-round field-icon">person</span>
+          <input matInput formControlName="name" autocomplete="name" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Email</mat-label>
+          <span matPrefix class="material-icons-round field-icon">mail</span>
+          <input matInput formControlName="email" type="email" autocomplete="email" placeholder="you@example.com" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Password</mat-label>
+          <span matPrefix class="material-icons-round field-icon">lock</span>
+          <input matInput formControlName="password" autocomplete="new-password"
+          [type]="hide ? 'password' : 'text'" />
+          <button
+            mat-icon-button
+            matSuffix
+            (click)="hide = !hide"
+            [attr.aria-label]="'Toggle password visibility'"
+            [attr.aria-pressed]="!hide"
+            type="button"
+          >
+            <span class="material-icons-round">{{ hide ? 'visibility_off' : 'visibility' }}</span>
+          </button>
+        </mat-form-field>
+
+        <button mat-flat-button class="auth-submit" type="submit" [disabled]="loading">
+          {{ loading ? 'Creating account…' : 'Create account' }}
+        </button>
+      </form>
+
+      <p class="auth-switch">
+        Already have an account?<a routerLink="/login">Log in</a>
+      </p>
+    </div>
+  </main>
+</div>

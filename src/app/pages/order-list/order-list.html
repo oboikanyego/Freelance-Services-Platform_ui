@@ -1,68 +1,78 @@
-<div class="filter-sort-container" *ngIf="!loading && orders.length > 0">
-    <mat-form-field appearance="outline" class="filter-select">
-      <mat-label>Filter by Status</mat-label>
-      <mat-select [value]="selectedStatus" (selectionChange)="onStatusChange($event.value)">
-        <mat-option value="">All</mat-option>
-        <mat-option *ngFor="let s of statuses" [value]="s">{{ s }}</mat-option>
-      </mat-select>
-    </mat-form-field>
-  
-    <mat-form-field appearance="outline" class="sort-select">
-      <mat-label>Sort by Date</mat-label>
-      <mat-select [value]="sortOrder" (selectionChange)="onSortChange($event.value)">
-        <mat-option value="newest">Newest First</mat-option>
-        <mat-option value="oldest">Oldest First</mat-option>
-      </mat-select>
-    </mat-form-field>
+<div class="page">
+  <header class="page-header">
+    <div>
+      <span class="eyebrow">Dashboard</span>
+      <h1>My orders</h1>
+      <p>Track progress and chat with the other party on each order.</p>
+    </div>
+
+    <div class="filters" *ngIf="!loading && orders.length > 0">
+      <mat-form-field appearance="outline" subscriptSizing="dynamic">
+        <mat-label>Status</mat-label>
+        <mat-select [value]="selectedStatus" (selectionChange)="onStatusChange($event.value)">
+          <mat-option value="">All statuses</mat-option>
+          <mat-option *ngFor="let s of statuses" [value]="s">{{ s | titlecase }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" subscriptSizing="dynamic">
+        <mat-label>Sort</mat-label>
+        <mat-select [value]="sortOrder" (selectionChange)="onSortChange($event.value)">
+          <mat-option value="newest">Newest first</mat-option>
+          <mat-option value="oldest">Oldest first</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </header>
+
+  <div *ngIf="loading" class="loading">
+    <mat-progress-spinner mode="indeterminate" diameter="40"></mat-progress-spinner>
   </div>
-  
-  <div *ngIf="loading" class="loading-spinner">
-    <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+
+  <div *ngIf="!loading && filteredOrders.length === 0" class="empty-state panel">
+    <span class="material-icons-round">inventory_2</span>
+    <h3>No orders yet</h3>
+    <p>When you place or receive an order it will show up here.</p>
   </div>
-  
-  <div *ngIf="!loading && filteredOrders.length === 0" class="no-orders">
-    <p>No orders found.</p>
-  </div>
-  
-  <div *ngIf="!loading && filteredOrders.length > 0" class="order-list">
-    <mat-accordion>
-      <mat-expansion-panel *ngFor="let order of filteredOrders">
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            {{ order.serviceId.title }} - R {{ order.serviceId.price }}
-          </mat-panel-title>
-          <mat-panel-description>
-            Status: <strong>{{ order.status }}</strong>
-          </mat-panel-description>
-        </mat-expansion-panel-header>
-  
-        <p><strong>Buyer:</strong> {{ order.buyerId.name }}</p>
-        <p><strong>Freelancer:</strong> {{ order.freelancerId.name }}</p>
-        <p><strong>Ordered On:</strong> {{ order.createdAt | date:'medium' }}</p>
-        <p><strong>Description:</strong> {{ order.serviceId.description }}</p>
-        <button mat-raised-button color="primary" (click)="openChat(order)">
-          Chat
-        </button>
-  
-        <ng-container *ngIf="order.freelancerId._id === userId">
-          <div class="status-buttons">
-            <button mat-button color="primary" (click)="updateStatus(order._id, 'in progress')" [disabled]="order.status !== 'pending'">Start</button>
-            <button mat-button color="accent" (click)="updateStatus(order._id, 'delivered')" [disabled]="order.status !== 'in progress'">Deliver</button>
-            <button mat-button color="warn" (click)="updateStatus(order._id, 'completed')" [disabled]="order.status !== 'delivered'">Complete</button>
+
+  <mat-accordion *ngIf="!loading && filteredOrders.length > 0" class="order-list" displayMode="flat">
+    <mat-expansion-panel *ngFor="let order of filteredOrders" class="order">
+      <mat-expansion-panel-header collapsedHeight="76px" expandedHeight="76px">
+        <div class="order-head">
+          <div class="order-title">
+            <strong>{{ order.serviceId.title }}</strong>
+            <small>Ordered {{ order.createdAt | date:'mediumDate' }}</small>
           </div>
-        </ng-container>
-        <ng-container *ngIf="order.freelancerId._id === userId">
-          <div class="status-buttons">
-            <button mat-button color="primary" (click)="updateStatus(order._id, 'in progress')" [disabled]="order.status !== 'pending'">Start</button>
-            <button mat-button color="accent" (click)="updateStatus(order._id, 'delivered')" [disabled]="order.status !== 'in progress'">Deliver</button>
-            <button mat-button color="warn" (click)="updateStatus(order._id, 'completed')" [disabled]="order.status !== 'delivered'">Complete</button>
+          <span class="order-price">R {{ order.serviceId.price | number }}</span>
+          <span class="badge" [ngClass]="'status-' + order.status.replace(' ', '-')">{{ order.status }}</span>
+        </div>
+      </mat-expansion-panel-header>
+
+      <div class="order-body">
+        <dl class="details">
+          <div><dt>Buyer</dt><dd>{{ order.buyerId.name }}</dd></div>
+          <div><dt>Freelancer</dt><dd>{{ order.freelancerId.name }}</dd></div>
+          <div><dt>Ordered on</dt><dd>{{ order.createdAt | date:'medium' }}</dd></div>
+        </dl>
+        <p class="description">{{ order.serviceId.description }}</p>
+
+        <div class="actions">
+          <button mat-stroked-button (click)="openChat(order)">
+            <span class="material-icons-round">chat</span> Open chat
+          </button>
+
+          <div class="status-buttons" *ngIf="order.freelancerId._id === userId">
+            <button mat-flat-button (click)="updateStatus(order._id, 'in progress')" [disabled]="order.status !== 'pending'">Start</button>
+            <button mat-flat-button (click)="updateStatus(order._id, 'delivered')" [disabled]="order.status !== 'in progress'">Deliver</button>
+            <button mat-flat-button (click)="updateStatus(order._id, 'completed')" [disabled]="order.status !== 'delivered'">Complete</button>
           </div>
-        </ng-container>
-      </mat-expansion-panel>
-    </mat-accordion>
-  </div>
-  <app-chat-popup *ngIf="isChatOpen"
+        </div>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>
+
+<app-chat-popup *ngIf="isChatOpen"
   [order]="selectedOrderForChat"
   (close)="closeChat()">
 </app-chat-popup>
-  

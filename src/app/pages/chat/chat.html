@@ -1,16 +1,23 @@
 <div class="chat-container">
-    <div class="chat-messages">
-      <div *ngFor="let msg of messages" [class.self]="msg.fromSelf" class="message">
-        <span>{{ msg.text }}</span>
-      </div>
+  <div class="chat-messages">
+    <div class="chat-empty" *ngIf="!messages.length">
+      <span class="material-icons-round">forum</span>
+      <p>No messages yet. Say hello 👋</p>
     </div>
-    <div class="chat-input">
-      <input
-        [(ngModel)]="newMessage"
-        (keydown.enter)="sendMessage()"
-        placeholder="Type a message..."
-      />
-      <button mat-raised-button color="primary" (click)="sendMessage()">Send</button>
+    <div *ngFor="let msg of messages" [class.self]="msg.fromSelf" class="message">
+      <span>{{ msg.text }}</span>
     </div>
   </div>
-  
+  <form class="chat-input" (ngSubmit)="sendMessage()">
+    <input
+      [(ngModel)]="newMessage"
+      name="message"
+      autocomplete="off"
+      placeholder="Write a message…"
+      aria-label="Message"
+    />
+    <button mat-flat-button type="submit" class="send" [disabled]="!newMessage.trim()" aria-label="Send message">
+      <span class="material-icons-round">send</span>
+    </button>
+  </form>
+</div>

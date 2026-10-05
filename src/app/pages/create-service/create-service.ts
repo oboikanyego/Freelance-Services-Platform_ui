@@ -1,23 +1,21 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { ServiceService } from '../../services/service.service';
 import { CommonModule } from '@angular/common';
-import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-// import { MatButtonModule } from '@angular/material/button';
-import {MatButton} from '@angular/material/button';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-create-service',
   imports: [ 
     CommonModule,
     ReactiveFormsModule,
-    MatCardModule,
+    RouterModule,
     MatFormFieldModule,
     MatInputModule,
-    MatButton
+    MatButtonModule
   ],
   templateUrl: './create-service.html',
   styleUrl: './create-service.scss'
