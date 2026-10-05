@@ -1,20 +1,41 @@
-<div class="auth-container">
-  <div class="auth-box">
-    <div class="form-section">
-      <h2>Login</h2>
+<div class="auth-shell">
+  <aside class="auth-aside">
+    <a class="brand" routerLink="/">
+      <span class="brand-mark material-icons-round">bolt</span>
+      FreelanceHub
+    </a>
+    <div class="auth-quote">
+      <h2>Welcome back to the marketplace for great work.</h2>
+      <p>Pick up where you left off — your orders and conversations are waiting.</p>
+      <ul class="auth-points">
+        <li><span class="material-icons-round">verified_user</span> Secure accounts and order tracking</li>
+        <li><span class="material-icons-round">forum</span> Real-time chat on every order</li>
+        <li><span class="material-icons-round">payments</span> Transparent, upfront pricing</li>
+      </ul>
+    </div>
+    <span class="auth-foot">&copy; FreelanceHub</span>
+  </aside>
+
+  <main class="auth-main">
+    <div class="auth-card">
+      <h1>Log in</h1>
+      <p class="auth-sub">Enter your details to access your account.</p>
 
       <form [formGroup]="form" (ngSubmit)="submit()">
-        <mat-form-field appearance="outline" floatLabel="always">
+        <mat-form-field appearance="outline">
           <mat-label>Email</mat-label>
-          <input matInput formControlName="email" type="email" />
+          <input matInput formControlName="email" type="email" autocomplete="email" placeholder="you@example.com" />
+          <span matPrefix class="material-icons-round field-icon">mail</span>
         </mat-form-field>
 
-        <mat-form-field appearance="outline" floatLabel="always">
+        <mat-form-field appearance="outline">
           <mat-label>Password</mat-label>
+          <span matPrefix class="material-icons-round field-icon">lock</span>
           <input
             matInput
             [type]="hide ? 'password' : 'text'"
             formControlName="password"
+            autocomplete="current-password"
           />
           <button
             mat-icon-button
@@ -24,22 +45,22 @@
             [attr.aria-pressed]="!hide"
             type="button"
           >
-            <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
+            <span class="material-icons-round">{{ hide ? 'visibility_off' : 'visibility' }}</span>
           </button>
-          
         </mat-form-field>
-        
 
-        <div class="form-footer">
+        <div class="auth-row">
           <a routerLink="/forgot-password">Forgot password?</a>
         </div>
 
-        <button mat-raised-button type="submit">Login</button>
-        <div class="register-link">
-            <span>Don't have an account?</span>
-            <a matButton="outlined" mat-button color="primary" routerLink="/register">Register</a>
-          </div>
+        <button mat-flat-button class="auth-submit" type="submit" [disabled]="loading">
+          {{ loading ? 'Signing in…' : 'Log in' }}
+        </button>
       </form>
+
+      <p class="auth-switch">
+        Don't have an account?<a routerLink="/register">Create one</a>
+      </p>
     </div>
-  </div>
+  </main>
 </div>

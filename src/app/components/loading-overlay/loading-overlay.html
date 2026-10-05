@@ -3,7 +3,7 @@
   *ngIf="loadingService.loading$ | async"
 >
   <div class="loader-content">
-    <mat-spinner diameter="40" color="accent"></mat-spinner>
+    <mat-spinner diameter="40" ></mat-spinner>
     <div class="wave-text">
       <span *ngFor="let letter of text; let i = index" [style.animation-delay.ms]="i * 100">
         {{ letter }}

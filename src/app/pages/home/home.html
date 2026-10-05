@@ -1,9 +1,127 @@
-<section class="features" @fadeSlideIn>
-  <h2>Why FreelanceHub?</h2>
-  <ul>
-    <li>🔒 Secure transactions between buyers & freelancers</li>
-    <li>💬 Built-in chat per order</li>
-    <li>🛠 Create or order services in minutes</li>
-    <li>🚀 Fast, modern Angular app</li>
-  </ul>
+<section class="hero">
+  <div class="hero-inner" @fadeSlideIn>
+    <div class="hero-copy">
+      <span class="pill"><span class="dot"></span> Trusted marketplace for local talent</span>
+      <h1>Find the right freelancer for <span class="accent">any project</span></h1>
+      <p class="lead">
+        Browse vetted services, order in a few clicks and collaborate through built‑in chat —
+        or start selling your own skills today.
+      </p>
+      <div class="hero-actions">
+        <a mat-flat-button routerLink="/services">
+          <span class="material-icons-round">search</span> Browse services
+        </a>
+        <a mat-stroked-button routerLink="/register">Become a freelancer</a>
+      </div>
+      <ul class="hero-trust">
+        <li><span class="material-icons-round">verified</span> Secure orders</li>
+        <li><span class="material-icons-round">bolt</span> Fast delivery</li>
+        <li><span class="material-icons-round">forum</span> Direct chat</li>
+      </ul>
+    </div>
+
+    <div class="hero-visual" aria-hidden="true">
+      <div class="mock-card main">
+        <div class="mock-img"></div>
+        <div class="mock-body">
+          <div class="mock-row">
+            <span class="mock-cat">Design</span>
+            <span class="mock-price">R 1 200</span>
+          </div>
+          <strong>Brand identity &amp; logo package</strong>
+          <div class="mock-seller">
+            <span class="mock-avatar">TM</span> Thandi M. · <span class="material-icons-round star">star</span> 4.9
+          </div>
+        </div>
+      </div>
+      <div class="mock-card float status">
+        <span class="material-icons-round ok">check_circle</span>
+        <div>
+          <strong>Order delivered</strong>
+          <small>Website redesign · just now</small>
+        </div>
+      </div>
+      <div class="mock-card float chat">
+        <span class="mock-avatar alt">KR</span>
+        <div>
+          <strong>New message</strong>
+          <small>“First draft is ready for review!”</small>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="stats">
+  <a class="stat" routerLink="/services"><span class="material-icons-round">palette</span><strong>Design</strong><span>Logos, branding, UI</span></a>
+  <a class="stat" routerLink="/services"><span class="material-icons-round">code</span><strong>Development</strong><span>Web, mobile, APIs</span></a>
+  <a class="stat" routerLink="/services"><span class="material-icons-round">edit_note</span><strong>Writing</strong><span>Copy, content, CVs</span></a>
+  <a class="stat" routerLink="/services"><span class="material-icons-round">campaign</span><strong>Marketing</strong><span>Social, SEO, ads</span></a>
+</section>
+
+<section class="section">
+  <div class="section-head">
+    <span class="eyebrow">How it works</span>
+    <h2>From idea to delivery in three steps</h2>
+  </div>
+  <div class="steps">
+    <div class="step">
+      <span class="step-num">01</span>
+      <span class="material-icons-round step-icon">travel_explore</span>
+      <h3>Discover</h3>
+      <p>Browse services across design, development, writing and more — with clear pricing upfront.</p>
+    </div>
+    <div class="step">
+      <span class="step-num">02</span>
+      <span class="material-icons-round step-icon">shopping_bag</span>
+      <h3>Order</h3>
+      <p>Place an order in one click. Track it from pending to in progress, delivered and completed.</p>
+    </div>
+    <div class="step">
+      <span class="step-num">03</span>
+      <span class="material-icons-round step-icon">chat</span>
+      <h3>Collaborate</h3>
+      <p>Chat with your freelancer in real time for every order until the work is exactly right.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-head">
+    <span class="eyebrow">Why FreelanceHub</span>
+    <h2>Everything you need to get work done</h2>
+  </div>
+  <div class="features">
+    <div class="feature">
+      <span class="material-icons-round">lock</span>
+      <h3>Secure transactions</h3>
+      <p>Protected accounts and order tracking between buyers and freelancers.</p>
+    </div>
+    <div class="feature">
+      <span class="material-icons-round">forum</span>
+      <h3>Built‑in chat per order</h3>
+      <p>Keep every conversation tied to the order it belongs to.</p>
+    </div>
+    <div class="feature">
+      <span class="material-icons-round">rocket_launch</span>
+      <h3>Launch in minutes</h3>
+      <p>Freelancers can publish a service with images and pricing in no time.</p>
+    </div>
+    <div class="feature">
+      <span class="material-icons-round">insights</span>
+      <h3>Clear order status</h3>
+      <p>Filter and sort orders to always know what needs your attention.</p>
+    </div>
+  </div>
+</section>
+
+<section class="cta">
+  <div>
+    <h2>Ready to grow your business?</h2>
+    <p>Join FreelanceHub and start selling your services to buyers today.</p>
+  </div>
+  <div class="cta-actions">
+    <a mat-flat-button class="cta-primary" routerLink="/register">Create free account</a>
+    <a mat-button class="cta-secondary" routerLink="/services">Explore services</a>
+  </div>
 </section>

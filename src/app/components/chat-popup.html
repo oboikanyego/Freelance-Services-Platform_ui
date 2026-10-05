@@ -1,10 +1,19 @@
 <!-- Floating Button -->
-<div class="chat-float-button" (click)="togglePopup()" *ngIf="auth.isLoggedIn() && order">
-    💬
-  </div>
-  
-  <!-- Chat Window -->
-  <div class="chat-popup" *ngIf="showPopup">
-    <app-chat *ngIf="order" [order]="order"></app-chat>
-  </div>
-  
+<button class="chat-float-button" type="button" (click)="togglePopup()" *ngIf="auth.isLoggedIn() && order"
+  [attr.aria-label]="showPopup ? 'Close chat' : 'Open chat'">
+  <span class="material-icons-round">{{ showPopup ? 'close' : 'chat' }}</span>
+</button>
+
+<!-- Chat Window -->
+<div class="chat-popup" *ngIf="showPopup">
+  <header class="chat-header">
+    <div>
+      <strong>{{ order?.serviceId?.title || 'Conversation' }}</strong>
+      <small>Order chat</small>
+    </div>
+    <button type="button" class="close" (click)="togglePopup()" aria-label="Close chat">
+      <span class="material-icons-round">close</span>
+    </button>
+  </header>
+  <app-chat *ngIf="order" [order]="order"></app-chat>
+</div>

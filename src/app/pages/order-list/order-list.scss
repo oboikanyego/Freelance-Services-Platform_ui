@@ -1,28 +1,113 @@
+:host {
+  display: block;
+}
+
+.filters {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+
+  mat-form-field {
+    width: 180px;
+  }
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  padding: 80px 0;
+}
+
 .order-list {
-    max-width: 800px;
-    margin: 2rem auto;
-  }
-  
-  .status-buttons button {
-    margin-right: 1rem;
-  }
-  
-  .loading-spinner, .no-orders {
-    display: flex;
-    justify-content: center;
-    margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.order.mat-expansion-panel {
+  border: 1px solid var(--line);
+  border-radius: var(--radius) !important;
+  box-shadow: none !important;
+}
+
+.order-head {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-width: 0;
+  padding-right: 12px;
+}
+
+.order-title {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+
+  strong {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
-
-  .filter-sort-container {
-    display: flex;
-    justify-content: center;
-    gap: 2rem;
-    margin: 1rem 0;
-  
-    .filter-select, .sort-select {
-      width: 200px;
-    }
+  small {
+    color: var(--ink-500);
+    font-size: 0.8rem;
   }
-  
-  
+}
+
+.order-price {
+  font-weight: 700;
+
+  @media (max-width: 600px) {
+    display: none;
+  }
+}
+
+.order-body {
+  border-top: 1px solid var(--line);
+  padding-top: 18px;
+}
+
+.details {
+  margin: 0 0 16px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+
+  dt {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--ink-400);
+  }
+
+  dd {
+    margin: 2px 0 0;
+    font-weight: 500;
+  }
+}
+
+.description {
+  color: var(--ink-700);
+  background: var(--surface-muted);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  font-size: 0.925rem;
+}
+
+.actions {
+  margin-top: 18px;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.status-buttons {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}

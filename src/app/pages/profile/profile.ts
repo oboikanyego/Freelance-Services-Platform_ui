@@ -3,17 +3,13 @@ import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { MatDividerModule } from '@angular/material/divider';  
 
 @Component({
   selector: 'app-profile',
   imports: [
     CommonModule,
     RouterModule,
-    MatCardModule,
     MatButtonModule,
-    MatDividerModule,
   ],
   templateUrl: './profile.html',
   styleUrl: './profile.scss'
@@ -23,6 +19,11 @@ export class Profile {
 
   constructor(private auth: AuthService, private router: Router) {
     this.user = this.auth.getUser();
+  }
+
+  get initials(): string {
+    const name: string = this.user?.name || '';
+    return name.split(' ').filter(Boolean).slice(0, 2).map(p => p[0].toUpperCase()).join('') || '?';
   }
 
   logout() {

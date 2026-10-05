@@ -30,7 +30,7 @@ export class Register {
   form: FormGroup;
   roles = ['freelancer', 'buyer'];
   loading = false;
-hide: any = false;
+  hide = true;
 
   constructor(
     private fb: FormBuilder,

@@ -1,7 +1,42 @@
-<div class="service-grid" *ngIf="!loading">
-    <app-service-card *ngFor="let s of services" [service]="s"></app-service-card>
-  </div>
-  <mat-progress-spinner
-   *ngIf="loading" mode="indeterminate"></mat-progress-spinner>
+<div class="page">
+  <header class="page-header">
+    <div>
+      <span class="eyebrow">Marketplace</span>
+      <h1>Browse services</h1>
+      <p>Find a skilled freelancer and get your project moving.</p>
+    </div>
+    <label class="search">
+      <span class="material-icons-round">search</span>
+      <input type="search" [(ngModel)]="search" placeholder="Search services…" aria-label="Search services" />
+    </label>
+  </header>
 
-  
+  <div class="chips" *ngIf="categories.length > 1">
+    <button type="button" [class.active]="!selectedCategory" (click)="selectedCategory = ''">All</button>
+    <button type="button" *ngFor="let c of categories" [class.active]="selectedCategory === c" (click)="selectedCategory = c">
+      {{ c }}
+    </button>
+  </div>
+
+  <div class="loading" *ngIf="loading">
+    <mat-progress-spinner mode="indeterminate" diameter="40"></mat-progress-spinner>
+  </div>
+
+  <ng-container *ngIf="!loading">
+    <p class="result-count" *ngIf="services.length">
+      {{ filteredServices.length }} {{ filteredServices.length === 1 ? 'service' : 'services' }}
+    </p>
+
+    <div class="service-grid" *ngIf="filteredServices.length; else empty">
+      <app-service-card *ngFor="let s of filteredServices" [service]="s"></app-service-card>
+    </div>
+  </ng-container>
+
+  <ng-template #empty>
+    <div class="empty-state panel">
+      <span class="material-icons-round">search_off</span>
+      <h3>No services found</h3>
+      <p>Try a different search term or category.</p>
+    </div>
+  </ng-template>
+</div>

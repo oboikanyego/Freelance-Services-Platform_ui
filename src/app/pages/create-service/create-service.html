@@ -1,33 +1,77 @@
-<mat-card class="create-form">
-    <form [formGroup]="form" (ngSubmit)="submit()" enctype="multipart/form-data">
-      <h2>Create a New Service</h2>
-  
+<div class="page">
+  <header class="page-header">
+    <div>
+      <span class="eyebrow">Sell</span>
+      <h1>Create a new service</h1>
+      <p>Describe what you offer, set a price and add a cover image.</p>
+    </div>
+  </header>
+
+  <div class="layout">
+    <form class="panel form" [formGroup]="form" (ngSubmit)="submit()" enctype="multipart/form-data">
+      <h2>Service details</h2>
+
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>Title</mat-label>
-        <input matInput formControlName="title" />
+        <input matInput formControlName="title" placeholder="e.g. I will design a modern logo" />
       </mat-form-field>
-  
+
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>Description</mat-label>
-        <textarea matInput rows="4" formControlName="description"></textarea>
+        <textarea matInput rows="5" formControlName="description"
+          placeholder="What's included, delivery time, what you need from the buyer…"></textarea>
       </mat-form-field>
-  
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Category</mat-label>
-        <input matInput formControlName="category" />
-      </mat-form-field>
-  
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Price (R)</mat-label>
-        <input matInput type="number" formControlName="price" />
-      </mat-form-field>
-  
-      <input type="file" (change)="onFileChange($event)" />
-      <br /><br />
-  
-      <button mat-raised-button color="primary">
-        {{ uploading ? 'Uploading...' : 'Create Service' }}
-      </button>
+
+      <div class="row">
+        <mat-form-field appearance="outline">
+          <mat-label>Category</mat-label>
+          <input matInput formControlName="category" placeholder="e.g. Design" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Price</mat-label>
+          <span matTextPrefix>R&nbsp;</span>
+          <input matInput type="number" min="1" formControlName="price" />
+        </mat-form-field>
+      </div>
+
+      <h2>Cover image</h2>
+      <label class="dropzone" [class.has-file]="previewUrl">
+        <input type="file" accept="image/*" (change)="onFileChange($event)" />
+        <img *ngIf="previewUrl" [src]="previewUrl" alt="Selected cover image" />
+        <span class="dz-content" *ngIf="!previewUrl">
+          <span class="material-icons-round">cloud_upload</span>
+          <strong>Click to upload an image</strong>
+          <small>PNG or JPG, landscape works best</small>
+        </span>
+        <span class="dz-change" *ngIf="previewUrl">Change image</span>
+      </label>
+
+      <div class="submit-row">
+        <a mat-button routerLink="/profile">Cancel</a>
+        <button mat-flat-button type="submit" [disabled]="uploading || form.invalid">
+          {{ uploading ? 'Publishing…' : 'Publish service' }}
+        </button>
+      </div>
     </form>
-  </mat-card>
-  
+
+    <aside class="preview">
+      <span class="preview-label">Live preview</span>
+      <article class="preview-card">
+        <div class="media">
+          <img *ngIf="previewUrl" [src]="previewUrl" alt="" />
+          <span class="material-icons-round" *ngIf="!previewUrl">image</span>
+          <span class="category" *ngIf="form.value.category">{{ form.value.category }}</span>
+        </div>
+        <div class="body">
+          <h3>{{ form.value.title || 'Your service title' }}</h3>
+          <p>{{ form.value.description || 'A short description of what buyers will get.' }}</p>
+        </div>
+        <footer>
+          <small>Starting at</small>
+          <strong>R {{ (form.value.price || 0) | number }}</strong>
+        </footer>
+      </article>
+    </aside>
+  </div>
+</div>
